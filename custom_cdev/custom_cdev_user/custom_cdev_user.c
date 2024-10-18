@@ -24,26 +24,6 @@ int main(int argc, char **argv)
                 exit(EXIT_FAILURE);
         }
 
-        printf("Device driver fd = %d\n", fd);
-
-        /*
-        switch (argv[1][0])
-        {
-                case 'p':
-                        if(ioctl(fd, IOCTL_PRINT, 0) < 0)
-                        i
-                        {
-                                printf("Error in IOCTL");
-                        }
-                        break;
-
-                default:
-                        printf("Wrong Input\n");
-                break;
-        }
-        */
-
-
         /*Write and Read data*/
         char message[] = "Apollo Creed";
 
@@ -55,7 +35,6 @@ int main(int argc, char **argv)
                 close(fd);
                 return -1;
         }
-
 
 
         if(lseek(fd, 0, SEEK_SET))

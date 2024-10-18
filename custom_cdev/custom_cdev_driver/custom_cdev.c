@@ -33,10 +33,8 @@ struct custom_cdev_data dev;
 static int custom_cdev_open(struct inode *inode, struct file *file)
 {
         struct custom_cdev_data *data = container_of(inode->i_cdev, struct custom_cdev_data, cdev);
-
         /*Access data from custom_cdev_data*/
         file->private_data = data;
-
         pr_info("custom cdev - open\n");
         schedule_timeout(10 * HZ);
         return 0;
@@ -73,7 +71,7 @@ static ssize_t custom_cdev_read(struct file *file, char *user_buffer, size_t siz
 static ssize_t custom_cdev_write(struct file *file, const char __user *user_buffer, size_t size, loff_t *offset)
 {
         struct custom_cdev_data *data = (struct custom_cdev_data *)file->private_data;
-        pr_info("custom cdev write op\n");
+        pr_info("custom cdev - write\n");
 
         ssize_t to_write = min((size_t)data->size - (size_t)*offset, (size_t)size);
 
@@ -160,7 +158,7 @@ static int custom_cdev_init(void)
         int err;
 
         pr_info("Initializing custom cdev\n");
-        err = register_chrdev_region(MKDEV(MY_MAJOR, MY_MINOR), 1, "cusotm_cdev");
+        err = register_chrdev_region(MKDEV(MY_MAJOR, MY_MINOR), 1, "custom_cdev");
 
         if(err != 0)
         {
@@ -189,10 +187,8 @@ static void custom_cdev_exit(void)
 {
     pr_info("Exiting custom cdev");
     cdev_del(&dev.cdev);
-
     unregister_chrdev_region(MKDEV(MY_MAJOR,MY_MINOR), 1);
 }
-
 
 module_init(custom_cdev_init);
 module_exit(custom_cdev_exit);
