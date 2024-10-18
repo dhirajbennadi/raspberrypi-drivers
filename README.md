@@ -10,4 +10,4 @@ Implementation of custom drivers on Raspberry Pi
 
 GPIO Driver
 
-![General Driver](/raspberrypi-drivers/RaspberryPiGPIO.png)
+![General Driver](RaspberryPiGPIO.png)
