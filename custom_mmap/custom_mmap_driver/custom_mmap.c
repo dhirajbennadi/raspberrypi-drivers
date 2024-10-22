@@ -1,7 +1,4 @@
 /*
- * PSO - Memory Mapping Lab(#11)
- *
- * Exercise #1: memory mapping using kmalloc'd kernel areas
  */
 
 #include <linux/version.h>
