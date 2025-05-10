@@ -1,0 +1,51 @@
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/module.h>
+
+int value_cb;
+
+/*
+ * Custom callback for set value
+ * param_set_int - default
+ * */
+int notify_param(const char *val, const struct kernel_param *kp)
+{
+	int res = param_set_int(val, kp);
+	if(res) return -1;
+	
+	pr_info("Callback invoked\n");
+	pr_info("New Value = %d\n",value_cb);
+	return 0;
+}
+
+
+const struct kernel_param_ops value_param_ops = 
+{
+	.set = &notify_param,
+	.get = &param_get_int,
+};
+
+module_param_cb(value_cb, &value_param_ops, &value_cb, S_IRUGO | S_IWUSR);
+
+
+/*
+ * Init and Exit functions
+ * */
+static int __init hello_world_init(void)
+{
+	pr_info("Hello World - Init\n");
+	return 0;
+}
+
+static void __exit hello_world_exit(void)
+{
+	pr_info("Hello World - Exit\n");
+}
+
+
+module_init(hello_world_init);
+module_exit(hello_world_exit);
+
+MODULE_DESCRIPTION("Hello World-DB");
+MODULE_AUTHOR("Dhiraj");
+MODULE_LICENSE("GPL");
